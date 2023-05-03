@@ -1,0 +1,35 @@
+name: Build, Test, and Notify
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-test-notify:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.17
+    - name: Check out code
+      uses: actions/checkout@v2
+    - name: Build and Test
+      run: |
+        go build -v ./...
+        go test -v ./...
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+    - name: Build Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: false
+    - name: Call specific URL
+      run: |
+        curl http://aaa.bbb.cc
+
