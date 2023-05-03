@@ -20,6 +20,8 @@ type Chunkkey struct {
 	fn       string
 }
 
+var tz *time.Location = time.FixedZone("KST", 9*60*60)
+
 func (k Chunkkey) GetFilename() string {
 	return k.fn
 }
@@ -27,7 +29,7 @@ func (k Chunkkey) GetFilename() string {
 func (k Chunkkey) String() string {
 	fullpath, _ := filepath.Abs(k.fn)
 	return fmt.Sprintf("%s_%s_%d_%d",
-		k.t.Format(ChunkkeyTimeFormat),
+		k.t.In(tz).Format(ChunkkeyTimeFormat),
 		fullpath,
 		k.beginOff,
 		k.endOff)
@@ -63,7 +65,7 @@ LOOP:
 func ParseChunkkey(arg string) (Chunkkey, error) {
 	spl := strings.Split(arg, "_")
 
-	t, err := time.Parse(ChunkkeyTimeFormat, spl[0])
+	t, err := time.ParseInLocation(ChunkkeyTimeFormat, spl[0], tz)
 	if err != nil {
 		return Chunkkey{}, err
 	}
