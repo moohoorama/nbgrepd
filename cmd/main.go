@@ -1,8 +1,9 @@
 package main
 
 import (
-        "github.daumkakao.io/tscoke/nbgrepd/daemon"
+	"github.daumkakao.io/tscoke/nbgrepd/daemon"
 )
+
 func main() {
-    daemon.Run()
+	daemon.Run()
 }
