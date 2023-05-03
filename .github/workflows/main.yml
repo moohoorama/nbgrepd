@@ -30,7 +30,4 @@ jobs:
         context: .
         file: ./cmd/Dockerfile
         push: false
-    - name: Call specific URL
-      run: |
-        curl http://aaa.bbb.cc
 
