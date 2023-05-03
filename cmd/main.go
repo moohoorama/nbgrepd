@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	daemon.Run()
+	daemon.RunForever()
 }
